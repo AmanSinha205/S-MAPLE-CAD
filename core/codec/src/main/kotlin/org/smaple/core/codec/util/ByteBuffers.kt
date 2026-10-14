@@ -38,4 +38,15 @@ object ByteBuffers {
         val b2 = buffer[offset + 2].toLong() and 0xFF
         return b0 or b1 or b2
     }
+
+    fun toHexString(bytes: ByteArray): String =
+        bytes.joinToString("") { "%02X".format(it) }
+
+    fun fromHexString(hex: String): ByteArray {
+        val clean = hex.replace(" ", "")
+        require(clean.length % 2 == 0) { "Hex string length must be even" }
+        return ByteArray(clean.length / 2) { i ->
+            clean.substring(i * 2, i * 2 + 2).toInt(16).toByte()
+        }
+    }
 }

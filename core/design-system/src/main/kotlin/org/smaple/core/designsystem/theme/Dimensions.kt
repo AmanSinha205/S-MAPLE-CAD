@@ -33,6 +33,13 @@ object MapleDimensions {
     val inputBorderWidth: Dp = 2.dp
     val tokenRingStroke: Dp = 3.dp
 
+    // Chips & Lists (Section 5)
+    val choiceChipHeight: Dp = 56.dp
+    val dataChipHeight: Dp = 34.dp
+    val statusChipHeight: Dp = 34.dp
+    val stepBarHeight: Dp = 8.dp
+    val listRowMinHeight: Dp = 64.dp
+
     // Token Sizes (Section 4.2)
     val tokenSizeHero: Dp = 236.dp
     val tokenSizeHome: Dp = 188.dp
