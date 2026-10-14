@@ -23,7 +23,7 @@ class FakePatientRepository @Inject constructor() : PatientRepository {
             patientId = "PT-100234",
             name = "John Smith",
             age = 36,
-            gender = org.smaple.core.model.Gender.Male,
+            gender = org.smaple.core.model.Gender.MALE,
             lastVisit = LocalDateTime.now().minusDays(30),
             medicalSummary = "Hypertension, Seasonal Allergies",
             riskStatus = RiskStatus.MEDIUM

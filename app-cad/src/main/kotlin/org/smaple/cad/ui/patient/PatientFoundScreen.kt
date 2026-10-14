@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,7 +41,7 @@ fun PatientFoundScreen(
     Column(
         modifier = modifier
             .padding(MapleSpacing.screenPadding),
-        verticalArrangement = Arrangement.spacedBy(MapleSpacing.large),
+        verticalArrangement = Arrangement.spacedBy(MapleSpacing.medium),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MapleCard {
@@ -109,7 +110,7 @@ private fun PatientFoundScreenPreview() {
             patientId = "PT-100234",
             name = "John Smith",
             age = 36,
-            gender = org.smaple.core.model.Gender.Male,
+            gender = org.smaple.core.model.Gender.MALE,
             lastVisit = java.time.LocalDateTime.now(),
             medicalSummary = "Hypertension, Seasonal Allergies",
             riskStatus = Patient.RiskStatus.MEDIUM

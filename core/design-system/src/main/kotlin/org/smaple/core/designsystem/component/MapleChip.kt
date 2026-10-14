@@ -67,7 +67,7 @@ fun MapleChoiceChip(
             }
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = MapleSpacing.large),
+            modifier = Modifier.padding(horizontal = MapleSpacing.medium),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {

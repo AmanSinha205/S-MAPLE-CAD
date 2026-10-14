@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.smaple.cad.reader.CardReaderManager
+import org.smaple.cad.reader.CardDiscoveryState
 import org.smaple.cad.data.repository.PatientRepository
 import org.smaple.cad.data.model.Patient
 import javax.inject.Inject
@@ -35,9 +36,9 @@ class ScanViewModel @Inject constructor(
         viewModelScope.launch {
             cardReaderManager.discoveryState.collect { discovery ->
                 val state = when (discovery) {
-                    CardReaderManager.CardDiscoveryState.Idle -> ScanUiState.Idle
-                    CardReaderManager.CardDiscoveryState.Scanning -> ScanUiState.Scanning
-                    CardReaderManager.CardDiscoveryState.CardDetected -> ScanUiState.Scanning // keep scanning UI until patient loads
+                    CardDiscoveryState.Idle -> ScanUiState.Idle
+                    CardDiscoveryState.Scanning -> ScanUiState.Scanning
+                    CardDiscoveryState.CardDetected -> ScanUiState.Scanning // keep scanning UI until patient loads
                     else -> ScanUiState.Idle
                 }
                 _uiState.value = state

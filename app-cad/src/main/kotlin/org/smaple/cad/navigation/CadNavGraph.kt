@@ -48,10 +48,15 @@ fun CadNavGraph(
         }
         composable(route = CadDestinations.PATIENT_FOUND_ROUTE) {
             val viewModel: PatientFoundViewModel = hiltViewModel()
-            PatientFoundScreen(viewModel = viewModel) {
-                // Back to Home
-                navController.popBackStack(CadDestinations.HOME_ROUTE, inclusive = false)
-            }
+            PatientFoundScreen(
+                viewModel = viewModel,
+                onBackToHome = {
+                    navController.popBackStack(
+                        CadDestinations.HOME_ROUTE,
+                        inclusive = false
+                    )
+                }
+            )
         }
     }
 }

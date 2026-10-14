@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.smaple.core.designsystem.theme.Amber
+import org.smaple.core.designsystem.theme.MapleAmber
 import org.smaple.core.designsystem.theme.Ink
 import org.smaple.core.designsystem.theme.Line
 import org.smaple.core.designsystem.theme.MapleCaption
@@ -133,7 +133,7 @@ private fun MapleBottomBarTab(
                     modifier = Modifier
                         .size(18.dp)
                         .clip(CircleShape)
-                        .background(Amber),
+                        .background(MapleAmber),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(

@@ -16,12 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.smaple.core.designsystem.component.MapleButton
 import org.smaple.core.designsystem.component.MapleButtonVariant
+import org.smaple.core.designsystem.component.MapleTokenState
 import org.smaple.core.designsystem.component.MapleToken
 import org.smaple.core.designsystem.theme.MapleBodyLarge
 import org.smaple.core.designsystem.theme.MapleHeadline2
+import org.smaple.core.designsystem.theme.MapleDimensions
 import org.smaple.core.designsystem.theme.MapleSpacing
-import org.smaple.core.designsystem.theme.MapleTokenState
 import org.smaple.core.designsystem.theme.MapleTheme
+import org.smaple.core.designsystem.theme.Ink
 
 @Composable
 fun ScanScreen(
@@ -47,8 +49,8 @@ fun ScanScreen(
     ) {
         MapleToken(
             state = when (uiState) {
-                ScanUiState.Idle -> MapleTokenState.Idle
-                ScanUiState.Scanning -> MapleTokenState.Scanning
+                ScanUiState.Idle -> MapleTokenState.Ready
+                ScanUiState.Scanning -> MapleTokenState.Working
             },
             size = MapleDimensions.tokenSizeHome
         )
@@ -56,7 +58,7 @@ fun ScanScreen(
         Text(
             text = "Hold your phone against the patient's phone or card.",
             style = MapleBodyLarge,
-            color = MapleHeadline2
+            color = Ink
         )
         Spacer(modifier = Modifier.height(24.dp))
         if (uiState is ScanUiState.Idle) {
@@ -69,7 +71,7 @@ fun ScanScreen(
             MapleButton(
                 text = "Cancel",
                 onClick = { viewModel.cancelScan() },
-                variant = MapleButtonVariant.Tertiary
+                variant = MapleButtonVariant.Secondary
             )
         }
     }
