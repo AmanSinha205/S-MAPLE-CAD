@@ -51,6 +51,8 @@ fun ScanScreen(
             state = when (uiState) {
                 ScanUiState.Idle -> MapleTokenState.Ready
                 ScanUiState.Scanning -> MapleTokenState.Working
+                ScanUiState.Communicating -> MapleTokenState.Working // card detected, keep animation
+                is ScanUiState.NfcError -> MapleTokenState.Ready    // error: stop animation
             },
             size = MapleDimensions.tokenSizeHome
         )
@@ -61,18 +63,21 @@ fun ScanScreen(
             color = Ink
         )
         Spacer(modifier = Modifier.height(24.dp))
-        if (uiState is ScanUiState.Idle) {
-            MapleButton(
-                text = "Start Scan",
-                onClick = { viewModel.startScanAndDiscover() },
-                variant = MapleButtonVariant.Primary
-            )
-        } else {
-            MapleButton(
-                text = "Cancel",
-                onClick = { viewModel.cancelScan() },
-                variant = MapleButtonVariant.Secondary
-            )
+        when (uiState) {
+            ScanUiState.Idle, is ScanUiState.NfcError -> {
+                MapleButton(
+                    text = if (uiState is ScanUiState.NfcError) "Retry" else "Start Scan",
+                    onClick = { viewModel.startScanAndDiscover() },
+                    variant = MapleButtonVariant.Primary
+                )
+            }
+            ScanUiState.Scanning, ScanUiState.Communicating -> {
+                MapleButton(
+                    text = "Cancel",
+                    onClick = { viewModel.cancelScan() },
+                    variant = MapleButtonVariant.Secondary
+                )
+            }
         }
     }
 }

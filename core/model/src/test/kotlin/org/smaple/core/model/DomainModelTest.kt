@@ -72,6 +72,23 @@ class DomainModelTest {
     }
 
     @Test
+    fun testBasicInfoDomainModel() {
+        val basicInfo: BasicInfo = BasicInfo(
+            patientId = "PT-555",
+            name = "Sarah Connor",
+            gender = Gender.FEMALE,
+            bloodGroup = BloodGroup.A_POSITIVE,
+            dateOfBirth = LocalDate.of(1984, 2, 28)
+        )
+        assertEquals("PT-555", basicInfo.patientId)
+        assertEquals("Sarah Connor", basicInfo.name)
+        assertEquals(Gender.FEMALE, basicInfo.gender)
+        assertEquals(BloodGroup.A_POSITIVE, basicInfo.bloodGroup)
+        assertEquals(LocalDate.of(1984, 2, 28), basicInfo.dateOfBirth)
+        assertTrue(basicInfo.calculateAge(LocalDate.of(2026, 1, 1)) > 40)
+    }
+
+    @Test
     fun testClinicalRecordValidation() {
         val record = ClinicalRecord(
             timestamp = Instant.parse("2025-06-01T12:00:00Z"),

@@ -7,6 +7,7 @@ import org.junit.Test
 import org.smaple.core.codec.basicinfo.DefaultBasicInfoCodec
 import org.smaple.core.codec.record.DefaultRecordCodec
 import org.smaple.core.codec.util.ByteBuffers
+import org.smaple.core.model.BasicInfo
 import org.smaple.core.model.BloodGroup
 import org.smaple.core.model.BloodPressure
 import org.smaple.core.model.ClinicalRecord
@@ -259,5 +260,50 @@ class CodecTest {
         val noFlags = ByteBuffers.fromHexString("200E3F6C044E313031")
         val res2 = recordCodec.decode(noFlags)
         assertTrue(res2 is CodecResult.Error)
+    }
+
+    @Test
+    fun testBasicInfoDecodeWithSuccessStatusWord() {
+        // Spec vector for Asha Verma with trailing 90 00 (response APDU format)
+        val responseHex = "104C67450741562D323034310A41736861205665726D619000"
+        val responseBytes = ByteBuffers.fromHexString(responseHex)
+
+        val result = basicInfoCodec.decode(responseBytes)
+        assertTrue(result is CodecResult.Success)
+        val decoded = (result as CodecResult.Success).value
+        assertEquals("AV-2041", decoded.patientId)
+        assertEquals("Asha Verma", decoded.name)
+        assertEquals(Gender.FEMALE, decoded.gender)
+        assertEquals(BloodGroup.B_POSITIVE, decoded.bloodGroup)
+    }
+
+    @Test
+    fun testBasicInfoDecodeCardErrorStatusWords() {
+        // SW 6A88 (Data not found / Basic info not written)
+        val dataNotFound = ByteBuffers.fromHexString("6A88")
+        val result1 = basicInfoCodec.decode(dataNotFound)
+        assertTrue(result1 is CodecResult.Error)
+        assertTrue((result1 as CodecResult.Error).message.contains("6A88"))
+
+        // SW 6982 (No secure session)
+        val noSession = ByteBuffers.fromHexString("6982")
+        val result2 = basicInfoCodec.decode(noSession)
+        assertTrue(result2 is CodecResult.Error)
+        assertTrue((result2 as CodecResult.Error).message.contains("6982"))
+    }
+
+    @Test
+    fun testBasicInfoDecodeRejectsTrailingGarbage() {
+        // Asha Verma block + 2 extra garbage bytes (not 9000)
+        val garbageHex = "104C67450741562D323034310A41736861205665726D61FFFF"
+        val result = basicInfoCodec.decode(ByteBuffers.fromHexString(garbageHex))
+        assertTrue(result is CodecResult.Error)
+        assertTrue((result as CodecResult.Error).message.contains("Unexpected trailing bytes"))
+    }
+
+    @Test
+    fun testBasicInfoDecodeEmptyReturnsError() {
+        val result = basicInfoCodec.decode(byteArrayOf())
+        assertTrue(result is CodecResult.Error)
     }
 }

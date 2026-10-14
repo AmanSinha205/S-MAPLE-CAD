@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mcard_service_description">S-MAPLE mCard NFC Service</string>
+    <string name="mcard_aid_description">S-MAPLE Health Card AID</string>
+</resources>
